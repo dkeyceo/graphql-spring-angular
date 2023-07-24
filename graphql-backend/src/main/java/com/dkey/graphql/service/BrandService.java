@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dkey.graphql.dto.BrandDto;
+import com.dkey.graphql.dto.ModelDto;
 import com.dkey.graphql.entity.Brand;
 import com.dkey.graphql.entity.Model;
 import com.dkey.graphql.enums.Country;
@@ -33,16 +35,16 @@ public class BrandService {
 				.orElseThrow(()->new RuntimeException("Id not exists"));
 	}
 	
-	public Brand saveBrand(String name, Country country) {
-		Brand brand = Brand.builder().name(name).country(country).build();
+	public Brand saveBrand(BrandDto brandDto) {
+		Brand brand = Brand.builder().name(brandDto.getName()).country(brandDto.getCountry()).build();
 		return brandRepository.save(brand);
 	}
 	
-	public Brand updateBrand(int id, String name, Country country) {
+	public Brand updateBrand(int id, BrandDto brandDto) {
 		Brand brand = brandRepository.findById(id)
 				.orElseThrow(()->new RuntimeException("Id not exists"));
-		brand.setName(name);
-		brand.setCountry(country);
+		brand.setName(brandDto.getName());
+		brand.setCountry(brandDto.getCountry());
 		return brandRepository.save(brand);
 	}
 	
@@ -63,11 +65,11 @@ public class BrandService {
 				.orElseThrow(()->new RuntimeException("Id not exists"));
 	}
 	
-	public Model saveModel(int brandId, String name) {
-		Brand brand = brandRepository.findById(brandId)
+	public Model saveModel(ModelDto modelDto) {
+		Brand brand = brandRepository.findById(modelDto.getBrandId())
 				.orElseThrow(()->new RuntimeException("Id not exists"));
 		
-		return modelRepository.save(Model.builder().name(name).brand(brand).build());
+		return modelRepository.save(Model.builder().name(modelDto.getName()).brand(brand).build());
 	}
 	
 	public Model updateModel(int id, String name) {
@@ -87,13 +89,13 @@ public class BrandService {
 	
 	@PostConstruct
 	private void loadData() {
-		saveBrand("Mers", Country.GER);
-		saveBrand("BMW", Country.GER);
-		saveBrand("Jaguar", Country.ENG);
+		saveBrand(new BrandDto ("Mers", Country.GER));
+		saveBrand(new BrandDto ("BMW", Country.GER));
+		saveBrand(new BrandDto ("Jaguar", Country.ENG));
 		
-		saveModel(1, "Benz");
-		saveModel(2, "X5");
-		saveModel(3, "F-TYPE");
+		saveModel(new ModelDto (1, "Benz"));
+		saveModel(new ModelDto (2, "X5"));
+		saveModel(new ModelDto (3, "F-TYPE"));
 		
 	}
 }

@@ -6,11 +6,11 @@
  }
  
  type Mutation{
- 	saveBrand(name: String, country: Country): Brand
- 	updateBrand(id: Int, name: String, country: Country): Brand
+ 	saveBrand(brandDto: BrandDto): Brand
+ 	updateBrand(id: Int, brandDto: BrandDto): Brand
  	deleteBrand(id: Int): Brand
  	
- 	saveModel(brandId: Int, name: String): Model
+ 	saveModel(modelDto: ModelDto): Model
  	updateModel(id: Int, name: String): Model
  	deleteModel(id: Int): Model
  }
@@ -32,4 +32,14 @@
  	ENG
  	ES
  	JAP
+ }
+ 
+ input BrandDto {
+ 	name: String
+ 	country: Country
+ }
+ 
+ input ModelDto{
+ 	brandId: Int
+ 	name: String
  }

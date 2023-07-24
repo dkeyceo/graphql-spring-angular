@@ -8,6 +8,8 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import com.dkey.graphql.dto.BrandDto;
+import com.dkey.graphql.dto.ModelDto;
 import com.dkey.graphql.entity.Brand;
 import com.dkey.graphql.entity.Model;
 import com.dkey.graphql.enums.Country;
@@ -29,13 +31,13 @@ public class BrandController {
 	}
 	
 	@MutationMapping
-	public Brand saveBrand(@Argument String name, @Argument Country country){
-		return brandService.saveBrand(name, country);
+	public Brand saveBrand(@Argument BrandDto brandDto){
+		return brandService.saveBrand(brandDto);
 	}
 	
 	@MutationMapping
-	public Brand updateBrand(@Argument int id, @Argument String name, @Argument Country country){
-		return brandService.updateBrand(id, name, country);
+	public Brand updateBrand(@Argument int id, @Argument BrandDto brandDto){
+		return brandService.updateBrand(id, brandDto);
 	}
 	
 	@MutationMapping
@@ -56,8 +58,8 @@ public class BrandController {
 	}
 	
 	@MutationMapping
-	public Model saveModel(@Argument int brandId, @Argument String name){
-		return brandService.saveModel(brandId, name);
+	public Model saveModel(@Argument ModelDto modelDto){
+		return brandService.saveModel(modelDto);
 	}
 	
 	@MutationMapping
