@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
 
 import com.dkey.graphql.dto.BrandDto;
@@ -14,6 +15,9 @@ import com.dkey.graphql.entity.Brand;
 import com.dkey.graphql.entity.Model;
 import com.dkey.graphql.enums.Country;
 import com.dkey.graphql.service.BrandService;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Controller
 public class BrandController {
@@ -25,9 +29,19 @@ public class BrandController {
 		return brandService.findAllBrands();
 	}
 	
+	@SubscriptionMapping
+	public Flux<Brand> findAllBrandsFlux(){
+		return brandService.findAllBrandsFlux();
+	}
+	
 	@QueryMapping
 	public Brand findOneBrand(@Argument int id){
 		return brandService.findOneBrand(id);
+	}
+	
+	@SubscriptionMapping
+	public Mono<Brand> findOneBrandMono(@Argument int id){
+		return brandService.findOneBrandMono(id);
 	}
 	
 	@MutationMapping
@@ -71,4 +85,6 @@ public class BrandController {
 	public Model deleteModel(@Argument int id){
 		return brandService.deleteModel(id);
 	}
+	
+	
 }

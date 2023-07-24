@@ -1,5 +1,6 @@
 package com.dkey.graphql.service;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import com.dkey.graphql.repository.ModelRepository;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
@@ -30,9 +33,18 @@ public class BrandService {
 		return brandRepository.findAll();
 	}
 	
+	public Flux<Brand> findAllBrandsFlux(){
+		return Flux.fromStream(brandRepository.findAll().stream())
+				.delayElements(Duration.ofSeconds(1)).take(10);
+	}
+	
 	public Brand findOneBrand(int id) {
 		return brandRepository.findById(id)
 				.orElseThrow(()->new RuntimeException("Id not exists"));
+	}
+	
+	public Mono<Brand> findOneBrandMono(int id) {
+		return Mono.justOrEmpty(brandRepository.findById(id));
 	}
 	
 	public Brand saveBrand(BrandDto brandDto) {
@@ -55,6 +67,8 @@ public class BrandService {
 		brandRepository.delete(brand);
 		return brand;
 	}
+	
+	
 	
 	public List<Model> findAllModels(){
 		return modelRepository.findAll();

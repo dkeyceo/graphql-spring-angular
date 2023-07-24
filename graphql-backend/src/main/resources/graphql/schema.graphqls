@@ -15,6 +15,12 @@
  	deleteModel(id: Int): Model
  }
  
+ type Subscription {
+ 	findAllBrandsFlux: Brand
+ 	findOneBrandMono(id: Int): Brand
+ 	
+ }
+ 
  type Brand {
  	id: Int
  	name: String

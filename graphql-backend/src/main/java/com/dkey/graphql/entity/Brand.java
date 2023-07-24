@@ -7,6 +7,7 @@ import com.dkey.graphql.enums.Country;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,6 +30,6 @@ public class Brand {
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private Country country;
-	@OneToMany(mappedBy = "brand")
+	@OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
 	private List<Model> models;
 }
