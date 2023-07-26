@@ -9,4 +9,16 @@ const GET_BRANDS = gql`
   }
 `;
 
-export {GET_BRANDS};
+const GET_MODELS_BY_BRAND_ID = gql`
+query FindModelsByBrand($brandId: Int){
+  findModelsByBrandId(brandId: $brandId) {
+      id
+      name
+      brand {
+          name
+      }
+  }
+}
+`;
+
+export {GET_BRANDS, GET_MODELS_BY_BRAND_ID};
