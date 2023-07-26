@@ -67,6 +67,11 @@ public class BrandController {
 	}
 	
 	@QueryMapping
+	public List<Model> findModelsByBrandId(@Argument int brandId){
+		return brandService.findModelsByBrandId(brandId);
+	}
+	
+	@QueryMapping
 	public Model findOneModel(@Argument int id){
 		return brandService.findOneModel(id);
 	}

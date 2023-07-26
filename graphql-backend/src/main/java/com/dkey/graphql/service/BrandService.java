@@ -86,6 +86,14 @@ public class BrandService {
 		return modelRepository.findAll();
 	}
 	
+	public List<Model> findModelsByBrandId(int brandId) {
+		Optional<Brand> brandOpt = brandRepository.findById(brandId);
+		if(!brandOpt.isPresent())
+			throw new RuntimeException("Brand not found");
+		
+		return modelRepository.findModelsByBrandId(brandId);
+	}
+	
 	public Model findOneModel(int id) {
 		return modelRepository.findById(id)
 				.orElseThrow(()->new RuntimeException("Id not exists"));
@@ -134,4 +142,6 @@ public class BrandService {
 		saveModel(new ModelDto (3, "F-TYPE"));
 		
 	}
+
+	
 }

@@ -4,6 +4,7 @@ directive @NotBlank(message: String = "name is mandatory") on ARGUMENT_DEFINITIO
  	findOneBrand(id: Int): Brand
  	findAllModels: [Model]
  	findOneModel(id: Int): Model
+ 	findModelsByBrandId(brandId: Int) : [Model]
  }
  
  type Mutation{
