@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import { GET_BRANDS } from 'src/app/graphql/queries.graphql';
 
@@ -14,6 +14,8 @@ export class BrandsComponent implements OnInit, OnDestroy {
   brands: any;
   private querySubscription: Subscription;
 
+  brandsQuery: QueryRef<any>;
+
   constructor(private apollo: Apollo) { }
 
   ngOnInit(): void {
@@ -21,13 +23,20 @@ export class BrandsComponent implements OnInit, OnDestroy {
   }
 
   loadBrands(){
-    this.querySubscription = this.apollo
+    this.brandsQuery =  this.apollo
     .watchQuery<any>({
       query: GET_BRANDS,
-    }).valueChanges.subscribe(({data, loading}) => {
-      this.loading = loading;
-      this.brands = data.findAllBrands;
-    })
+    });
+    this.querySubscription = this.brandsQuery
+      .valueChanges.subscribe(({ data, loading }) => {
+        this.loading = loading;
+        this.brands = data.findAllBrands;
+        this.refresh();
+      });
+  }
+
+  refresh(): void {
+    this.brandsQuery.refetch();
   }
 
   ngOnDestroy(): void {
