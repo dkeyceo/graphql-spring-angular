@@ -76,6 +76,7 @@ public class BrandService {
 		Brand brand = brandRepository.findById(id)
 				.orElseThrow(()->new RuntimeException("Id not exists"));
 		
+		brand.getModels().forEach(model -> modelRepository.delete(model));
 		brandRepository.delete(brand);
 		return brand;
 	}

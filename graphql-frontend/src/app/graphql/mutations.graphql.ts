@@ -9,5 +9,21 @@ const CREATE_BRAND = gql`
   }
 `;
 
+const UPDATE_BRAND = gql`
+  mutation UpdateBrand($id: Int, $brandDto: BrandDto){
+    updateBrand(id: $id,brandDto: $brandDto){
+      id
+      name
+    }
+  }
+`;
 
-export {CREATE_BRAND};
+const DELETE_BRAND = gql`
+  mutation DeleteBrand($id: Int){
+    deleteBrand(id: $id){
+      id
+    }
+  }
+`;
+
+export {CREATE_BRAND, UPDATE_BRAND, DELETE_BRAND};
